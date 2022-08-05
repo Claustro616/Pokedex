@@ -15,11 +15,10 @@ class PokemonEvolveWizard(models.TransientModel):
     @api.depends("pokemon_id")
     def _get_evolution(self):
         for ev_wizd in self:
-            if len(ev_eizd.pokemon_id.evolution_ids):
-                ev_wizd.update(
-                    {'evolve_to_id': ev_wizd.pokemon_id_evolution_ids[0].id})
+            if len(ev_wizd.pokemon_id.evolution_ids):
+                ev_wizd.evolve_to_id=ev_wizd.pokemon_id.evolution_ids[0].id
             else:
-                ev_wizd.update({'evolve_to_id': false})
+                ev_wizd.update({'evolve_to_id': False})
 
     def evolve_confirm(self):
         for ev_wizd in self:
@@ -32,7 +31,8 @@ class PokemonEvolveWizard(models.TransientModel):
             if not ev_wizd.evolve_to_id:
                 raise UserError(
                     ("%s not have an evolution avaliable." % (ev_wizd.pokemon_id.name)))
+            print(ev_wizd.evolve_to_id.id)
             ev_wizd.trainer_id.write(
-                {'pokemon_ids': [4, ev_wizd.evolve_to_id.id]})
+                {'pokemon_ids': [(4, ev_wizd.evolve_to_id.id)]})
             ev_wizd.trainer_id.write(
-                {'pokemon_ids': [3, ev_wizd.pokemon_id.id]})
+                {'pokemon_ids': [(3, ev_wizd.pokemon_id.id)]})

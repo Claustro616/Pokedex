@@ -4,7 +4,7 @@ from odoo import fields, models, _
 class ResPartnerTrainer(models.Model):
     _inherit = "res.partner" #Heradar un modelo existente
     #                               Modelo relacionado, nombre tabla,         columna 1,      columna 2 relacion modelo secundario
-    pokemon_ids = fields.Many2many('pokedex.pokemon', 'partner_pokemon_rel', 'partner_id', 'pokemon_id',)
+    pokemon_ids = fields.Many2many('pokedex.pokemon')
 
     def evolve_pokemon(self):
         evolve_wizard_view = self.env.ref('pokedex.evolve_pokemon_wizard_form')
